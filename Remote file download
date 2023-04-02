@@ -1,0 +1,29 @@
+<?php
+if(isset($_POST['url'])) {
+    $url = $_POST['url'];
+    $filename = basename($url); // Extract filename from URL
+    $file_extension = pathinfo($filename, PATHINFO_EXTENSION); // Extract file extension from filename
+    $new_filename = 'downloads/' . uniqid() . '.' . $file_extension; // Generate a unique filename with the same extension
+    $result = file_put_contents($new_filename, file_get_contents($url)); // Download the remote file and save it locally
+    
+    if ($result !== false) {
+        echo "File downloaded successfully.";
+    } else {
+        echo "File download failed.";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download Remote File</title>
+</head>
+<body>
+    <form method="POST">
+        <label>Enter URL:</label>
+        <input type="text" name="url">
+        <button type="submit">Download</button>
+    </form>
+</body>
+</html>
